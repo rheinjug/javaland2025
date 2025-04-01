@@ -70,11 +70,10 @@
   "foo"
   (type "foo")
   (.toUpperCase "foo")
+  
+  ;; Vorsicht: nur eine Untermenge von Java ist hier enthalten
 
-  ;; Characters
-  \f
-  (type \f)
-
+  
   (type +)
 
   ;; Keywords, evaluieren zu sich selbst
@@ -103,8 +102,6 @@
     (* n n))
   (square 4)
 
-  (def square2 #(* % %))
-  (square2 4)
 
   ;; Threading Macros - Wende Funktionen nacheinander an und verwende jeweils
   ;; das Ergebnis der Funktion davor als Eingabe für die nächste Funktion.
@@ -171,7 +168,7 @@
   {"key" "value"}
 
   (def mymap
-    {"key" "value"
+    {:key "value"
      :clojure :rocks})
 
   (:clojure mymap)
