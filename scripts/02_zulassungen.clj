@@ -11,7 +11,7 @@
 ;; Das Skript gibt die Matrikelnummern der Studierenden aus, die in allen CSV-Dateien bestanden haben.
 ;; Eine Studierende hat bestanden, wenn sie mindestens 50 Punkte hat.
 
-;; Beispielaufrufe: 
+;; Beispielaufrufe:
 ;;
 ;; bb scripts/02_zulassungen.clj
 ;; bb scripts/02_zulassungen.clj --path resources/zulassungen/
@@ -25,24 +25,33 @@
   [file]
   (let [zeilen (with-open [reader (io/reader (.toString file))]
                  (doall (csv/read-csv reader)))]
-    ;; TODO
-    ))
+    (map (fn [[matrikelnummer vorname nachname punkte]]
+           {:matrikelnummer matrikelnummer
+            :vorname vorname
+            :nachname nachname
+            :punkte (Integer/parseInt punkte)})
+         (rest zeilen))))
 
 (defn bestanden?
   "Kriterium für bestanden: Punkte >= 50"
   [{:keys [punkte]}]
-  ;; TODO
-  )
+  (>= punkte 50))
 
 (defn alle-bestandenen
   "Filtere die Studierenden, die in allen CSV-Dateien bestanden haben."
   [resultate]
-  ;; TODO
-  )
+  (filter bestanden? resultate))
 
 ;; Wenden nun alle Funktionen an und gib die Matrikelnummern aus von den Studierenden,
 ;; die in allen CSV-Dateien bestanden haben.
 (let [cli-options {:path {:default "resources/zulassungen"}}
-      path (:path (cli/parse-opts *command-line-args* {:spec cli-options}))]
-  ;; TODO
-  )
+      path (:path (cli/parse-opts *command-line-args* {:spec cli-options}))
+      zulassungen (fs/glob path "*.csv")]
+  (->> zulassungen
+       (map parse-csv)
+       (mapcat alle-bestandenen)
+       (map :matrikelnummer)
+       frequencies
+       (filter #(= (second %) (count zulassungen)))
+       (map first)
+       prn))
