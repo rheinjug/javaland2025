@@ -98,7 +98,7 @@
   ;; eines Pings auf Schnaq zurückliefert
   )
 
-(println (ping)) ;; soll 🧙‍♂️ ausgeben
+(println (ping)) ;; => soll 🧙‍♂️ ausgeben
 
 
 ;; Führe das Skript nun auf der Konsole aus! Navigiere in deiner Shell in diesen
