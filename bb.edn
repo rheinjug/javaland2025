@@ -1,5 +1,4 @@
 {:paths ["scripts"]
- :deps {yogthos/config {:mvn/version "1.2.1"}}
  :tasks {:requires ([babashka.fs :as fs])
          clean {:doc "Clean project"
                 :task (do (println "Clean target") ;; (shell "rm -rf target/")
